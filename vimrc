@@ -36,6 +36,7 @@ set softtabstop=4
 set shiftwidth=4
 set autoindent
 " Text wrapping
+set nowrap
 set textwidth=79
 set backspace=indent,eol,start
 let &colorcolumn="80"
