@@ -39,7 +39,15 @@ set autoindent
 set nowrap
 set textwidth=79
 set backspace=indent,eol,start
-let &colorcolumn="80"
+augroup gitwidth
+autocmd!
+autocmd FileType gitcommit set textwidth=71
+augroup END
+set colorcolumn=+1
+augroup gitccol
+autocmd!
+autocmd FileType gitcommit set colorcolumn+=51
+augroup END
 
 """ Color schemes and sytax
 syntax enable
