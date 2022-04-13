@@ -99,7 +99,6 @@ hi def link simicsPlatformRegister Special
 hi def link simicsTodo             Todo
 hi def link simicsNumber           Number
 hi def link simicsUrl              Underlined
-hi def link simicsInvoke           Structure
 
 let &cpo = s:cpo_save
 unlet s:cpo_save
