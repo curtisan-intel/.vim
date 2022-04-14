@@ -1,7 +1,8 @@
-" Vim syntax file for Simics command line scripts
-" Language:    Simics command line
-" Maintainer:  Bjoern Doebel
-" Last Change: 2010 Oct 29
+" Vim syntax file
+" Language:	Simics 6 Script
+" Maintainer:	Curtis Anderson <curtis.anderson@intel.com>
+" Last Change:	2022 April 13
+" Version:	1
 
 if exists("b:current_syntax")
   finish
@@ -13,92 +14,84 @@ set cpo&vim
 syn clear
 syn case match
 
-setlocal iskeyword+=-
-syn keyword simicsStatement       a alias api-search add-data-to-script-pipe and apropos add-directory api-apropos auto-partition-configuration add-module-directory api-help
-syn keyword simicsStatement       b bookmark break-cr break-heap break-log bin break break-exception break-io
-syn keyword simicsStatement       c cb cba cc cd change-namespace check-cell-partitioning clear-directories clear-recorder cmdline. cmdline_term. cn command-history
-syn keyword simicsStatement       command-list configuration-shortest-paths connect connect-central connect-components connect-real-network connect-real-network-bridge connect-real-network-host connect-real-network-napt
-syn keyword simicsStatement       connect-real-network-port-in connect-real-network-port-out connect-real-network-router continue continue-cycles continue-seconds copy-connector
-syn keyword simicsStatement       copyright cpu-switch-time create-script-barrier create-script-pipe current-namespace current-processor cycle-break cycle-break-absolute
-syn keyword simicsStatement       da date dec default-port-forward-target defined delete delete-bookmark devs digit-grouping dirs disable disable-hypersim disable-magic-breakpoint disable-mtprof
-syn keyword simicsStatement       disable-multithreading disable-page-sharing disable-real-time-mode disable-reverse-execution disassemble disassemble-settings disconnect disconnect-real-network 
-syn keyword simicsStatement       disconnect-real-network-port-in disconnect-real-network-port-out display dstc-disable dstc-enable
-syn keyword simicsStatement       echo else enable enable-core2-bugfix enable-hypersim enable-magic-breakpoint enable-mtprof enable-multithreading enable-page-sharing
-syn keyword simicsStatement       enable-real-time-mode  enable-reverse-execution env except exec exit expect
-syn keyword simicsStatement       foreach
-syn keyword simicsStatement       get get-breakpoint-list get-class-list get-component-list get-component-prefix get-error-command
-syn keyword simicsStatement       get-error-file get-error-line get-error-message get-object-list get-set-no-inquiry
-syn keyword simicsStatement       h help help-search hex hl hypersim-status
-syn keyword simicsStatement       ib if ifm ignore in in-list info-breakpoints instantiate-components instruction-fetch-mode
-syn keyword simicsStatement       interrupt-script interrupt-script-branch io-stats iostc-disable iostc-enable istc-disable istc-enable
-syn keyword simicsStatement       l2p license list-attributes list-bookmarks list-breakpoints list-classes list-components list-directories list-failed-modules list-hap-callbacks list-haps list-hypersim-patterns
-syn keyword simicsStatement       list-length list-modules list-namespaces list-objects list-port-forwarding-setup list-preferences list-script-branches list-variables list-vars
-syn keyword simicsStatement       load-binary load-file load-module load-persistent-state local log log-level log-setup log-size log-type logical-to-physical lookup-file ls
-syn keyword simicsStatement       magic-breakpoint-enabled match-string man max min module-list module-list-failed module-list-refresh move-object
-syn keyword simicsStatement       native-path network-helper new-attr-meter new-central-server new-context new-context-switcher new-cpu-mode-tracker
-syn keyword simicsStatement       new-etg new-file-cdrom new-freescale-hv-tracker new-gdb-remote new-glink new-hap-meter new-host-cdrom new-hypersim-pattern-matcher
-syn keyword simicsStatement       new-linux-process-tracker new-mem-traffic-meter new-ose-process-tracker new-qnx-process-tracker new-realtime new-serial-link new-symtable
-syn keyword simicsStatement       new-time-server new-tracer new-usb-disk-from-image new-vxworks-process-tracker new-wdb-remote new-wr-hyper-tracker not
-syn keyword simicsStatement       object-exists  oct  or  output-file-start  output-file-stop  output-radix
-syn keyword simicsStatement       p pdisable penable peq pid pipe popd pow prefs. pregs print print-event-queue
-syn keyword simicsStatement       print-time psel pselect pstatus ptime pushd pwd python python.
-syn keyword simicsStatement       q quit
-syn keyword simicsStatement       r range rc read-configuration read-reg read-variable readme resolve-file resolve-url restart-simics rev reverse reverse-cycles reverse-step-instruction
-syn keyword simicsStatement       reverse-to revto rexec-> rexec-limit rexec.get-attribute-list rexec.get-interface-list rexec.get-interface-port-list rexec.list-attributes
-syn keyword simicsStatement       rexec.list-interfaces rexec.log rexec.log-group rexec.log-level rexec.log-size rexec.log-type rlimit rstepi run run-command-file
-syn keyword simicsStatement       run-cycles run-python-file run-seconds
-syn keyword simicsStatement       save-component-template save-persistent-state save-preferences sb sba sc script-branch script-pipe-has-data search set set-bookmark
-syn keyword simicsStatement       set-component-prefix set-context set-memory-limit set-min-latency set-pattern set-pc set-prefix set-substr set-thread-limit shell si
-syn keyword simicsStatement       signed signed16 signed32 signed64 signed8 sim-> sim-break sim-break-absolute sim.get-attribute-list sim.get-interface-list sim.get-interface-port-list
-syn keyword simicsStatement       sim.info sim.list-attributes sim.list-interfaces sim.log sim.log-group sim.log-level sim.log-size sim.log-type sim.status skip-to
-syn keyword simicsStatement       split-string stc-status step-break step-break-absolute step-cycle step-instruction stepi stop sync-info system-info system-perfmeter system-perfmeter-plot
-syn keyword simicsStatement       telnet-frontend trace-breakpoint trace-cr trace-exception trace-hap  trace-io try
-syn keyword simicsStatement       unbreak unbreak-cr unbreak-exception unbreak-hap unbreak-io undisplay unload-module unset unstep-instruction
-syn keyword simicsStatement       untrace-breakpoint untrace-cr untrace-exception untrace-hap use-old-bool untrace-io
-syn keyword simicsStatement       version
-syn keyword simicsStatement       wait-for-breakpoint wait-for-hap wait-for-script-pipe wait-for-script-barrier wait-for-variable while win-about win-command-line
-syn keyword simicsStatement       win-command-list win-configuration-view win-console win-cpu-registers win-control win-device-registers win-disassembly win-hap-list
-syn keyword simicsStatement       win-help win-memory win-memory-browser win-object-browser win-plot win-preferences win-stack-trace win-source-view win-user-plot write-configuration write-reg
-syn keyword simicsStatement       x
-syn keyword simicsConstant        TRUE FALSE NIL
-syn keyword simicsTodo XXX TODO FIXME
-syn match simicsUrl /https\?:\/\/\(\w\+\(:\w\+\)\?@\)\?\([A-Za-z][-_0-9A-Za-z]*\.\)\{1,}\(\w\{2,}\.\?\)\{1,}\(:[0-9]\{1,5}\)\?\S*/
+" TODO Syntax rules.
 
-syn region String   start=+"+  skip=+\\"+  end=+"+
+" Control-flow keywords
+syn keyword	simConditional	if else
+syn keyword	simException	try except throw
+syn keyword	simRepeat	while foreach in
 
-syn region simicsComment start=/#.*/ end=/$/ contains=simicsTodo,simicsUrl
+" Numbers and boolean constants
+syn keyword	simConstant	TRUE FALSE NIL
 
-syn match simicsVariable   "$[a-zA-Z_][a-zA-Z0-9_]*"
-syn match simicsVariable   "%[a-zA-Z_][a-zA-Z0-9_]*%"
+syn match	simNumber	"\<\d\+\>"
+syn match	simNumber	"\<0x\x\+\>"
+syn match	simNumber	"\<0b[01]\+\>"
 
-syn match simicsNumber     "\<[-]\?\d\+\>"
-syn match simicsNumber     "\<0x\x\+\>"
-syn match simicsNumber     "\<0b[01]\+\>"
+" Named boolean operators
+syn keyword	simBooleanOp	and or not
 
-let b:current_syntax = ''
-unlet b:current_syntax
-syn include @Python syntax/python.vim
-syn region simicsPython matchgroup=Snip start=/\s*@/ end=/$/ contains=@Python
-syn region simicsPython matchgroup=Snip start=/`/ end=/`/ contains=@Python
+" Strings and characters
+syn region	simString	start=/"/ skip=/\\"/ end=/"/
+syn region	simString	start=/'/ skip=/\\'/ end=/'/
 
-" x86 registers
-syn match simicsPlatformRegister "%e\?\(ax\|bx\|cx\|di\|dx\|flags\|si\|bp\|ip\|sp\)"
-syn match simicsPlatformRegister "%\(ah\|al\|bh\|bl\|ch\|cl\|dh\|dl\)"
-syn match simicsPlatformRegister "%\(cpl\|cr0\|cr2\|cr3\|cr4\)"
-syn match simicsPlatformRegister "%[cdefgs]s\(_\(attr\|base\|limit\)\)*"
+" Comments and comment URLs
+syn keyword	simCommentFix	TODO FIXME HSD XXX contained
+syn match	simCommentURL	"https\?:\/\/\(\w\+\(:\w\+\)\?@\)\?\([A-Za-z][-_0-9A-Za-z]*\.\)\{1,}\(\w\{2,}\.\?\)\{1,}\(:[0-9]\{1,5}\)\?\S*" contained
+syn region	simComment	start=/#.*/ end=/$/ contains=simCommentFix,simCommentURL
 
-" XXX: add other platforms
+" Reference to named variable
+syn match	simVariable	"\$[a-zA-Z_][a-zA-Z0-9_]*\(\.[a-zA-Z_][a-zA-Z0-9_]*\)*"
+syn match	simVariable	"%[a-zA-Z_][a-zA-Z0-9_]*%"
 
-hi def link simicsStatement        Statement
-hi def link simicsComment          Comment
-hi def link Snip                   SpecialComment
-hi def link simicsConstant         Constant
-hi def link String                 String
-hi def link simicsVariable         Identifier
-hi def link simicsPlatformRegister Special
-hi def link simicsTodo             Todo
-hi def link simicsNumber           Number
-hi def link simicsUrl              Underlined
+" Defined boolean test
+syn keyword	simDefined	defined nextgroup=simDefineVal skipwhite
+syn match	simDefineVal	"[a-zA-Z_][a-zA-Z0-9_]*" contained
+
+" Variable types and storage
+syn keyword	simStorage	local unset
+
+" Command flags
+syn match	simCommandFlag	"\s\+-\{1,2}[a-zA-Z][-a-zA-Z0-9]*"
+
+" Command names
+"     Parsing command names proves to be too problematic.  There are incorrect
+"   matches, and many special cases even for correct matches.  It has been
+"   decided that it is better to keep the good highlighting we have than to
+"   mess it up with improper command name highlighting.
+"     Command names are user-defined, anyway.  So it is not really expected
+"   that they will be highlighted, given the other Vim syntax files.
+"
+" syn match	simCommandPre	/\(^\|(\|{\)/ nextgroup=simCommand skipwhite
+" syn match	simCommand	/[a-zA-Z]\+\(-[a-zA-Z0-9]\+\)*/ contained contains=simConditional,simException,simRepeat,simBooleanOp,simDefined,simStorage
+
+
+
+" Default highlighting.
+
+hi def link	simConditional	Conditional
+hi def link	simException	Exception
+hi def link	simRepeat	Repeat
+
+hi def link	simConstant	Constant
+hi def link	simNumber	Number
+
+hi def link	simBooleanOp	Operator
+
+hi def link	simString	String
+
+hi def link	simCommentFix	Todo
+hi def link	simCommentURL	Underlined
+hi def link	simComment	Comment
+
+hi def link	simVariable	Identifier
+
+hi def link	simDefined	Operator
+hi def link	simDefineVal	Define
+
+hi def link	simStorage	StorageClass
+
+hi def link	simCommandFlag	Special
 
 let &cpo = s:cpo_save
 unlet s:cpo_save
