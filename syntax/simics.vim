@@ -1,8 +1,8 @@
 " Vim syntax file
 " Language:	Simics 6 Script
 " Maintainer:	Curtis Anderson <curtis.anderson@intel.com>
-" Last Change:	2022 April 13
-" Version:	1
+" Last Change:	2022 April 14
+" Version:	2
 
 if exists("b:current_syntax")
   finish
@@ -64,6 +64,19 @@ syn match	simCommandFlag	"\s\+-\{1,2}[a-zA-Z][-a-zA-Z0-9]*"
 "
 " syn match	simCommandPre	/\(^\|(\|{\)/ nextgroup=simCommand skipwhite
 " syn match	simCommand	/[a-zA-Z]\+\(-[a-zA-Z0-9]\+\)*/ contained contains=simConditional,simException,simRepeat,simBooleanOp,simDefined,simStorage
+
+" Python lines
+let b:current_syntax = ''
+unlet b:current_syntax
+syn include	@Python		syntax/python.vim
+syn region	simPython	start=/@/ms=s+1 end=/$/ contains=@Python keepend
+syn region	simPython	start=/`/ms=s+1 end=/`/me=e-1 contains=@Python keepend
+
+" Shell lines
+let b:current_syntax = ''
+unlet b:current_syntax
+syn include	@Shell		syntax/sh.vim
+syn region	simShell	start=/![^=]/ms=s+1 end=/$/ contains=@Shell keepend
 
 
 
