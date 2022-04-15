@@ -82,12 +82,20 @@ let g:airline#extensions#branch#enabled=1
 " Gitgutter
 set signcolumn=auto
 set updatetime=100
-hi! link SignColumn LineNr
-let g:gitgutter_set_sign_backgrounds=1
-let g:gitgutter_sign_added='┃'
-let g:gitgutter_sign_modified='│'
-let g:gitgutter_sign_removed='_'
-let g:gitgutter_sign_removed_first_line='‾'
+" hi! link SignColumn LineNr
+" let g:gitgutter_set_sign_backgrounds=1
+let g:gitgutter_sign_added='▎'
+let g:gitgutter_sign_modified='▎'
+let g:gitgutter_sign_removed='▎'
+let g:gitgutter_sign_removed_first_line='▎'
+let g:gitgutter_sign_modified_removed='▎'
+let g:gitgutter_sign_removed_above_and_below='▎'
+" GitGutter symbol highlighting
+hi GitGutterAdd ctermfg=76 ctermbg=22
+hi GitGutterChange ctermfg=45 ctermbg=24
+hi GitGutterDelete ctermfg=196 ctermbg=52
+hi GitGutterChangeDelete ctermfg=196 ctermbg=24
+hi SignColumn ctermbg=235
 
 """ Controls
 " Mouse events support
