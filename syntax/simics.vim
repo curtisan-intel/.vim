@@ -78,6 +78,16 @@ unlet b:current_syntax
 syn include	@Shell		syntax/sh.vim
 syn region	simShell	start=/![^=]/ms=s+1 end=/$/ contains=@Shell keepend
 
+" Decl block
+syn region	simDeclBlock	matchgroup=simDeclMatch start=/decl\s\+{/ end=/}/ contains=declComment,declParam,declParams,declGroup,declFrom,declType,simComment,simString,simNumber,simConstant
+syn region	declComment	start=/!.*/ end=/$/ contained
+syn keyword	declGroup	group or except contained
+syn keyword	declParam	param result default contained
+syn keyword	declParams	params nextgroup=declFrom contained
+syn keyword	declFrom	from contained
+syn keyword	declType	int string nil bool file contained
+syn region	declType	start=/{/ end=/}/ contains=simString contained
+
 
 
 " Default highlighting.
@@ -105,6 +115,14 @@ hi def link	simDefineVal	Define
 hi def link	simStorage	StorageClass
 
 hi def link	simCommandFlag	Special
+
+hi def link	simDeclMatch	Macro
+hi def link	declComment	Comment
+hi def link	declParam	Keyword
+hi def link	declParams	Keyword
+hi def link	declFrom	Keyword
+hi def link	declType	StorageClass
+hi def link	declGroup	Keyword
 
 let &cpo = s:cpo_save
 unlet s:cpo_save

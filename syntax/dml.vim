@@ -8,31 +8,39 @@ if exists("b:current_syntax")
   finish
 endif
 
-syn match cIdent "\$[A-Za-z0-9\_]*"
+syn match cIdent "\$[a-zA-Z_][a-zA-Z0-9_]*"
 
 " A bunch of useful C keywords
+syn keyword	cStatement	after assert call cast defined each error
+syn keyword	cStatement	foreach in is local log param saved select
+syn keyword	cStatement	session shared sizeoftype typeof undefined vect
+syn keyword	cStatement	where async await with stringify
+
+
+
 syn keyword	cStatement	goto break return continue asm size
-syn keyword cStatement  parameter
-syn keyword cStatement  method
-syn keyword cStatement  device
-syn keyword cStatement  attribute
-syn keyword cStatement  template
+syn keyword	cStatement	parameter
+syn keyword	cStatement	method
+syn keyword	cStatement	device
+syn keyword	cStatement	attribute
+syn keyword	cStatement	template
 syn keyword	cLabel		case default
 syn keyword	cConditional	if else switch
 syn keyword	cRepeat		while for do
-syn keyword cStatement  connect 
-syn keyword cStatement  call
-syn keyword cStatement is
-syn keyword cStatement  local
-syn keyword cLabel log
-syn keyword cStorageClass data constant 
-syn keyword cLabel required undefined
-syn keyword cConditional implement interface 
-syn keyword	cTodo		contained TODO FIXME XXX
+syn keyword	cStatement	connect
+syn keyword	cStatement	call
+syn keyword	cStatement	is
+syn keyword	cStatement	local
+syn keyword	cLabel		log
+syn keyword	cStorageClass	data constant
+syn keyword	cLabel		required undefined
+syn keyword	cConditional	implement interface
+syn keyword	cTodo		TODO FIXME XXX HSD contained
+syn match	cCommentURL	"https\?:\/\/\(\w\+\(:\w\+\)\?@\)\?\([A-Za-z][-_0-9A-Za-z]*\.\)\{1,}\(\w\{2,}\.\?\)\{1,}\(:[0-9]\{1,5}\)\?\S*" contained
 
-syn keyword cSpecial dml
+syn keyword	cSpecial	dml
 " cCommentGroup allows adding matches for special things in comments
-syn cluster	cCommentGroup	contains=cTodo
+syn cluster	cCommentGroup	contains=cTodo,cCommentURL
 
 
 
@@ -186,7 +194,7 @@ if exists("c_gnu")
 endif
 syn keyword	cType		int long short char void
 syn keyword	cType		signed unsigned float double
-syn keyword cType   uint32 uint64 uint8 uint16 int32 int64 
+syn match	cType		"\<u\?int[1-9][0-9]*\>"
 if !exists("c_no_ansi") || exists("c_ansi_typedefs")
   syn keyword   cType		size_t ssize_t off_t wchar_t ptrdiff_t sig_atomic_t fpos_t
   syn keyword   cType		clock_t time_t va_list jmp_buf FILE DIR div_t ldiv_t
@@ -209,7 +217,7 @@ endif
 
 syn keyword	cStructure	struct union enum typedef bitfield
 syn keyword	cStorageClass	static register auto volatile extern const group
-syn keyword cStorageClass field bank
+syn keyword cStorageClass field bank port
 if exists("c_gnu")
   syn keyword	cStorageClass	inline __attribute__
 endif
@@ -381,11 +389,12 @@ hi def link cString		String
 hi def link cComment		Comment
 hi def link cSpecial		SpecialChar
 hi def link cTodo		Todo
-hi def link cIdent          Label
+hi def link cIdent		Identifier
 hi def link cCppSkip		cCppOut
 hi def link cCppOut2		cCppOut
 hi def link cCppOut		Comment
+hi def link cCommentURL		Underlined
 
-let b:current_syntax = "c"
+let b:current_syntax = "dml"
 
 " vim: ts=8
