@@ -78,15 +78,77 @@ unlet b:current_syntax
 syn include	@Shell		syntax/sh.vim
 syn region	simShell	start=/![^=]/ms=s+1 end=/$/ contains=@Shell keepend
 
-" Decl block
-syn region	simDeclBlock	matchgroup=simDeclMatch start=/decl\s\+{/ end=/}/ contains=declComment,declParam,declParams,declGroup,declFrom,declType,simComment,simString,simNumber,simConstant
+" Declarations and parameters
+syn region	simDeclBlock	matchgroup=simDeclMatch start=/decl\s\+{/ end=/}/ contains=@simDecls
+syn cluster	simDecls	contains=declParam,declResult,declParams,declGroup,declComment,simComment,declExcept,declDefault
+syn match	declName	/[a-zA-Z_][a-zA-Z0-9_]*/ contained
 syn region	declComment	start=/!.*/ end=/$/ contained
-syn keyword	declGroup	group or except contained
-syn keyword	declParam	param result default contained
-syn keyword	declParams	params nextgroup=declFrom contained
-syn keyword	declFrom	from contained
-syn keyword	declType	int string nil bool file contained
-syn region	declType	start=/{/ end=/}/ contains=simString contained
+
+syn keyword	declValBool	TRUE FALSE contained
+syn keyword	declValNil	NIL contained
+syn match	declValString	/[a-zA-Z_][a-zA-Z0-9_]*/ contained
+syn region	declValString	start=/"/ skip=/\\"/ end=/"/ contained
+syn match	declValInt	"\<[-]\?\d\+" contained nextgroup=declValFloat
+syn match	declValInt	"\<0x\x\+\>" contained
+syn match	declValInt	"\<0b[01]\+\>" contained
+syn match	declValFloat	"\.\d\+\%(e[-+]\=\d\+\)\?\>" contained
+syn match	declValFloat	"e[-+]\=\d\+\>" contained
+
+syn cluster	declVals	contains=declValBool,declValNil,declValString,declValInt
+
+syn region	declFilePattern	start=/"/ end=/"/ contained contains=declFileWC
+syn match	declFileWC	/\*/ contained
+syn match	declFileWC	/%simics%/ contained
+
+" Param declarations
+syn keyword	declParam	param contained nextgroup=declParamName skipwhite
+syn match	declParamName	/[a-zA-Z_][a-zA-Z0-9_]*/ contained nextgroup=declParamColon skipwhite
+syn match	declParamColon	/:/ contained nextgroup=declParamType skipwhite
+
+syn keyword	declParamType	int float string bool contained nextgroup=declParamOr,declParamVal skipwhite
+syn region	declParamType	start=/file(/ end=/)/ contained contains=declFilePattern nextgroup=declParamOr,declParamVal skipwhite
+syn region	declParamType	start=/{/ end=/}/ contained contains=@declVals nextgroup=declParamOr,declParamVal skipwhite
+
+syn keyword	declParamOr	or contained nextgroup=declParamNil skipwhite
+syn keyword	declParamNil	nil contained nextgroup=declParamVal skipwhite
+
+syn match	declParamVal	/=/ contained nextgroup=@declVals skipwhite
+
+" Result declarations
+syn keyword	declResult	result contained nextgroup=declResultName skipwhite
+syn match	declResultName	/[a-zA-Z_][a-zA-Z0-9_]*/ contained nextgroup=declResultColon skipwhite
+syn match	declResultColon	/:/ contained nextgroup=declResultType skipwhite
+
+syn keyword	declResultType	int float string bool contained nextgroup=declResultOr skipwhite
+syn region	declResultType	start=/file(/ end=/)/ contained contains=declFilePattern nextgroup=declResultOr skipwhite
+syn region	declResultType	start=/{/ end=/}/ contained contains=@declVals nextgroup=declResultOr skipwhite
+
+syn keyword	declResultOr	or contained nextgroup=declResultNil skipwhite
+syn keyword	declResultNil	nil contained skipwhite
+
+" Groups
+syn keyword	declGroup	group contained nextgroup=declGroupName skipwhite
+syn region	declGroupName	start=/"/ skip=/\\"/ end=/"/ contained
+
+" Imported parameters
+syn match	declParams	/params\s\+from/ contained nextgroup=declScriptName skipwhite
+syn region	declScriptName	start=/"/ skip=/\\"/ end=/"/ contained nextgroup=declExcept,declDefault skipwhite skipnl
+syn keyword	declExcept	except contained nextgroup=declExFirst skipwhite skipnl
+syn match	declExFirst	/[a-zA-Z_][a-zA-Z0-9_]*/ contained nextgroup=declExNext,declDefault skipwhite skipnl
+syn match	declExNext	/,/ contained nextgroup=declExFirst skipwhite skipnl
+syn keyword	declDefault	default contained nextgroup=declDefName skipwhite skipnl
+syn match	declDefName	/[a-zA-Z_][a-zA-Z0-9_]*/ contained nextgroup=declDefVal skipwhite skipnl
+syn match	declDefVal	/=/ contained nextgroup=declDValBool,declDValNil,declDValString,declDValInt skipwhite skipnl
+
+syn keyword	declDValBool	TRUE FALSE contained nextgroup=declDefault skipwhite skipnl
+syn keyword	declDValNil	NIL contained nextgroup=declDefault skipwhite skipnl
+syn match	declDValString	/[a-zA-Z_][a-zA-Z0-9_]*/ contained nextgroup=declDefault skipwhite skipnl
+syn region	declDValString	start=/"/ skip=/\\"/ end=/"/ contained nextgroup=declDefault skipwhite skipnl
+syn match	declDValInt	"\<[-]\?\d\+" contained nextgroup=declDValFloat,declDefault skipwhite skipnl
+syn match	declDValInt	"\<0x\x\+\>" contained nextgroup=declDefault skipwhite skipnl
+syn match	declDValInt	"\<0b[01]\+\>" contained nextgroup=declDefault skipwhite skipnl
+syn match	declDValFloat	"\.\d\+\%(e[-+]\=\d\+\)\?\>" contained nextgroup=declDefault skipwhite skipnl
+syn match	declDValFloat	"e[-+]\=\d\+\>" contained nextgroup=declDefault skipwhite skipnl
 
 
 
@@ -118,11 +180,46 @@ hi def link	simCommandFlag	Special
 
 hi def link	simDeclMatch	Macro
 hi def link	declComment	Comment
+
+hi def link	declValBool	Constant
+hi def link	declValNil	Constant
+hi def link	declValInt	Number
+hi def link	declValFloat	Number
+hi def link	declValString	String
+hi def link	declDValBool	Constant
+hi def link	declDValNil	Constant
+hi def link	declDValInt	Number
+hi def link	declDValFloat	Number
+hi def link	declDValString	String
+
 hi def link	declParam	Keyword
-hi def link	declParams	Keyword
-hi def link	declFrom	Keyword
-hi def link	declType	StorageClass
+hi def link	declResult	Keyword
 hi def link	declGroup	Keyword
+hi def link	declParams	Keyword
+hi def link	declParamOr	Keyword
+hi def link	declResultOr	Keyword
+hi def link	declExcept	Keyword
+hi def link	declDefault	Keyword
+hi def link	declParamType	Type
+hi def link	declResultType	Type
+hi def link	declParamNil	Type
+hi def link	declResultNil	Type
+
+hi def link	declParamColon	Operator
+hi def link	declResultColon	Operator
+hi def link	declParamVal	Operator
+hi def link	declDefVal	Operator
+
+hi def link	declParamName	Identifier
+hi def link	declResultName	Identifier
+hi def link	declGroupName	String
+hi def link	declScriptName	String
+hi def link	declExFirst	Identifier
+hi def link	declDefName	Identifier
+
+hi def link	declFilePattern	String
+hi def link	declFileWC	Underlined
+
 
 let &cpo = s:cpo_save
 unlet s:cpo_save
