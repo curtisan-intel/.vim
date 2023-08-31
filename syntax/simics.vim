@@ -80,7 +80,8 @@ syn region	simShell	start=/![^=]/ms=s+1 end=/$/ contains=@Shell keepend
 
 " Declarations and parameters
 syn region	simDeclBlock	matchgroup=simDeclMatch start=/decl\s\+{/ end=/}/ contains=@simDecls
-syn cluster	simDecls	contains=declParam,declResult,declParams,declGroup,declComment,simComment,declExcept,declDefault
+syn cluster	simDecls	contains=declParam,declResult,declParams,declGroup,declComment,simComment
+" ,declExcept,declDefault
 syn match	declName	/[a-zA-Z_][a-zA-Z0-9_]*/ contained
 syn region	declComment	start=/!.*/ end=/$/ contained
 
@@ -131,24 +132,24 @@ syn keyword	declGroup	group contained nextgroup=declGroupName skipwhite
 syn region	declGroupName	start=/"/ skip=/\\"/ end=/"/ contained
 
 " Imported parameters
-syn match	declParams	/params\s\+from/ contained nextgroup=declScriptName skipwhite
-syn region	declScriptName	start=/"/ skip=/\\"/ end=/"/ contained nextgroup=declExcept,declDefault skipwhite skipnl
-syn keyword	declExcept	except contained nextgroup=declExFirst skipwhite skipnl
-syn match	declExFirst	/[a-zA-Z_][a-zA-Z0-9_]*/ contained nextgroup=declExNext,declDefault skipwhite skipnl
-syn match	declExNext	/,/ contained nextgroup=declExFirst skipwhite skipnl
-syn keyword	declDefault	default contained nextgroup=declDefName skipwhite skipnl
-syn match	declDefName	/[a-zA-Z_][a-zA-Z0-9_]*/ contained nextgroup=declDefVal skipwhite skipnl
-syn match	declDefVal	/=/ contained nextgroup=declDValBool,declDValNil,declDValString,declDValInt skipwhite skipnl
+syn match	declParams	/params\s\+from/ contained nextgroup=declScriptName skipwhite skipempty
+syn region	declScriptName	start=/"/ skip=/\\"/ end=/"/ contained nextgroup=declExcept,declDefault skipwhite skipnl skipempty
+syn keyword	declExcept	except contained nextgroup=declExFirst skipwhite skipnl skipempty
+syn match	declExFirst	/[a-zA-Z_][a-zA-Z0-9_]*/ contained nextgroup=declExNext,declDefault skipwhite skipnl skipempty
+syn match	declExNext	/,/ contained nextgroup=declExFirst skipwhite skipnl skipempty
+syn keyword	declDefault	default contained nextgroup=declDefName skipwhite skipnl skipempty
+syn match	declDefName	/[a-zA-Z_][a-zA-Z0-9_]*/ contained nextgroup=declDefVal skipwhite skipnl skipempty
+syn match	declDefVal	/=/ contained nextgroup=declDValBool,declDValNil,declDValString,declDValInt skipwhite skipnl skipempty
 
-syn keyword	declDValBool	TRUE FALSE contained nextgroup=declDefault skipwhite skipnl
-syn keyword	declDValNil	NIL contained nextgroup=declDefault skipwhite skipnl
-syn match	declDValString	/[a-zA-Z_][a-zA-Z0-9_]*/ contained nextgroup=declDefault skipwhite skipnl
-syn region	declDValString	start=/"/ skip=/\\"/ end=/"/ contained nextgroup=declDefault skipwhite skipnl
-syn match	declDValInt	"\<[-]\?\d\+" contained nextgroup=declDValFloat,declDefault skipwhite skipnl
-syn match	declDValInt	"\<0x\x\+\>" contained nextgroup=declDefault skipwhite skipnl
-syn match	declDValInt	"\<0b[01]\+\>" contained nextgroup=declDefault skipwhite skipnl
-syn match	declDValFloat	"\.\d\+\%(e[-+]\=\d\+\)\?\>" contained nextgroup=declDefault skipwhite skipnl
-syn match	declDValFloat	"e[-+]\=\d\+\>" contained nextgroup=declDefault skipwhite skipnl
+syn keyword	declDValBool	TRUE FALSE contained nextgroup=declDefault skipwhite skipnl skipempty
+syn keyword	declDValNil	NIL contained nextgroup=declDefault skipwhite skipnl skipempty
+syn match	declDValString	/[a-zA-Z_][a-zA-Z0-9_]*/ contained nextgroup=declDefault skipwhite skipnl skipempty
+syn region	declDValString	start=/"/ skip=/\\"/ end=/"/ contained nextgroup=declDefault skipwhite skipnl skipempty
+syn match	declDValInt	"\<[-]\?\d\+" contained nextgroup=declDValFloat,declDefault skipwhite skipnl skipempty
+syn match	declDValInt	"\<0x\x\+\>" contained nextgroup=declDefault skipwhite skipnl skipempty
+syn match	declDValInt	"\<0b[01]\+\>" contained nextgroup=declDefault skipwhite skipnl skipempty
+syn match	declDValFloat	"\.\d\+\%(e[-+]\=\d\+\)\?\>" contained nextgroup=declDefault skipwhite skipnl skipempty
+syn match	declDValFloat	"e[-+]\=\d\+\>" contained nextgroup=declDefault skipwhite skipnl skipempty
 
 
 
